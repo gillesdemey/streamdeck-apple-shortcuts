@@ -1,24 +1,24 @@
 {
-  "Name": "better-shortcuts",
+  "Name": "simple-shortcuts",
   "Version": "0.1.0.0",
   "Author": "Gilles De Mey",
   "Actions": [
     {
       "Name": "Launch Shortcut",
-      "UUID": "com.gilles-de-mey.better-shortcuts.launch-shortcut",
-      "Icon": "imgs/actions/counter/icon",
+      "UUID": "com.gilles-de-mey.simple-shortcuts.launch-shortcut",
+      "Icon": "imgs/actions/launch/icon",
       "Tooltip": "Launch a MacOS Shortcut",
       "PropertyInspectorPath": "ui/shortcut-selector.html",
       "Controllers": ["Keypad"],
       "States": [
         {
-          "Image": "imgs/actions/counter/key",
+          "Image": "imgs/actions/launch/key",
           "TitleAlignment": "bottom"
         }
       ]
     }
   ],
-  "Category": "better-shortcuts",
+  "Category": "simple-shortcuts",
   "CategoryIcon": "imgs/plugin/category-icon",
   "CodePath": "bin/plugin.js",
   "Description": "Run MacOS shortcuts",
@@ -37,5 +37,5 @@
     "Version": "20",
     "Debug": "enabled"
   },
-  "UUID": "com.gilles-de-mey.better-shortcuts"
+  "UUID": "com.gilles-de-mey.simple-shortcuts"
 }

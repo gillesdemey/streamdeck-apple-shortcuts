@@ -16,7 +16,7 @@ import {
 import { FETCH_SHORTCUTS_EVENT } from "./constants";
 import { LauncherSettings } from "./types";
 
-@action({ UUID: "com.gilles-de-mey.better-shortcuts.launch-shortcut" })
+@action({ UUID: "com.gilles-de-mey.simple-shortcuts.launch-shortcut" })
 export class Launcher extends SingletonAction<LauncherSettings> {
   /**
    * activates when the action appears on the stream deck
