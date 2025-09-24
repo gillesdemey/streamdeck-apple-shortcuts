@@ -1,13 +1,14 @@
-import { execa } from "execa";
 import { parseOutputLine, type Shortcut, type Folder } from "./utils/parser";
+import { NONE_FOLDER_ID } from "./actions/constants";
+import { runCommand, runCommandSync } from "./utils/exec";
 
 /**
  * Run a shortcut by its ID
  * @param shortcutID The ID of the shortcut to run
  * @throws Error if the command fails
  */
-export async function runShortcut(shortcutID: string): Promise<void> {
-  await execa({ shell: true })`shortcuts run ${shortcutID}`;
+export async function runShortcut(shortcutID: string) {
+  runCommandSync("shortcuts", ["run", shortcutID]);
 }
 
 /**
@@ -18,8 +19,7 @@ export async function fetchAllShortcuts(): Promise<Map<string, Shortcut>> {
   const shortcuts = new Map<string, Shortcut>();
 
   // fetch all shortcuts, with IDs
-  const listShortcuts = execa({
-    shell: true,
+  const listShortcuts = runCommand({
     lines: true,
   })`shortcuts list --show-identifiers`;
 
@@ -43,9 +43,9 @@ export async function fetchAllShortcutsByFolder(): Promise<
   // include the "none" folder
   const folders = new Map<string, Folder>([
     [
-      "none",
+      NONE_FOLDER_ID,
       {
-        id: "none",
+        id: NONE_FOLDER_ID,
         name: "All shortcuts",
         shortcuts: [],
       },
@@ -53,7 +53,7 @@ export async function fetchAllShortcutsByFolder(): Promise<
   ]);
 
   // fetch all folders with ID
-  const listFolders = execa({
+  const listFolders = runCommand({
     shell: true,
     lines: true,
   })`shortcuts list --folders --show-identifiers`;
@@ -72,10 +72,9 @@ export async function fetchAllShortcutsByFolder(): Promise<
 
   // first, fill shortcuts for regular folders (not "none")
   for (const [folderId, folder] of folders) {
-    if (folderId !== "none") {
+    if (folderId !== NONE_FOLDER_ID) {
       // for regular folders, use folder-name filter
-      const listShortcuts = execa({
-        shell: true,
+      const listShortcuts = runCommand({
         lines: true,
       })`shortcuts list --folder-name ${folderId} --show-identifiers`;
 
@@ -91,7 +90,7 @@ export async function fetchAllShortcutsByFolder(): Promise<
   // collect all shortcut IDs that are in folders
   const shortcutsInFolders = new Set<string>();
   for (const [folderId, folder] of folders) {
-    if (folderId !== "none") {
+    if (folderId !== NONE_FOLDER_ID) {
       for (const shortcut of folder.shortcuts) {
         shortcutsInFolders.add(shortcut.id);
       }
@@ -99,10 +98,9 @@ export async function fetchAllShortcutsByFolder(): Promise<
   }
 
   // now fill the "none" folder with shortcuts not in any folder
-  const noneFolder = folders.get("none");
+  const noneFolder = folders.get(NONE_FOLDER_ID);
   if (noneFolder) {
-    const listShortcuts = execa({
-      shell: true,
+    const listShortcuts = runCommand({
       lines: true,
     })`shortcuts list --show-identifiers`;
 

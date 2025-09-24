@@ -63,6 +63,7 @@ export class Launcher extends SingletonAction<LauncherSettings> {
 
     try {
       await runShortcut(shortcutID);
+
       streamDeck.logger.trace("success");
       ev.action.showOk();
     } catch (error) {
