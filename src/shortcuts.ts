@@ -7,7 +7,7 @@ import { runCommand, runCommandSync } from "./utils/exec";
  * @param shortcutID The ID of the shortcut to run
  * @throws Error if the command fails
  */
-export async function runShortcut(shortcutID: string) {
+export function runShortcut(shortcutID: string) {
   runCommandSync("shortcuts", ["run", shortcutID]);
 }
 
