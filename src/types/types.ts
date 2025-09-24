@@ -1,5 +1,5 @@
 export type LauncherSettings = {
-  shortcutID: string;
+  shortcutID?: string; // optional, only happens if the shortcut wasn't configured properly (or yet)
 };
 
 export interface Shortcut {

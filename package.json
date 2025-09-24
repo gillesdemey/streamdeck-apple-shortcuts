@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "@elgato/streamdeck": "^1.0.0",
-    "execa": "^9.6.0"
+    "nano-spawn": "^1.0.3"
   }
 }

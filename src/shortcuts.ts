@@ -1,14 +1,18 @@
+import spawn from "nano-spawn";
+
 import { parseOutputLine, type Shortcut, type Folder } from "./utils/parser";
-import { NONE_FOLDER_ID } from "./actions/constants";
-import { runCommand, runCommandSync } from "./utils/exec";
+import { NONE_FOLDER_ID, SHOW_IDENTIFIERS } from "./constants";
 
 /**
  * Run a shortcut by its ID
  * @param shortcutID The ID of the shortcut to run
  * @throws Error if the command fails
  */
-export function runShortcut(shortcutID: string) {
-  runCommandSync("shortcuts", ["run", shortcutID]);
+export async function runShortcut(shortcutID: string) {
+  return await spawn("shortcuts", ["run", shortcutID], {
+    stdin: "ignore",
+    stdout: "ignore",
+  });
 }
 
 /**
@@ -19,9 +23,7 @@ export async function fetchAllShortcuts(): Promise<Map<string, Shortcut>> {
   const shortcuts = new Map<string, Shortcut>();
 
   // fetch all shortcuts, with IDs
-  const listShortcuts = runCommand({
-    lines: true,
-  })`shortcuts list --show-identifiers`;
+  const listShortcuts = spawn("shortcuts", ["list", SHOW_IDENTIFIERS]);
 
   for await (const line of listShortcuts) {
     const shortcut = parseOutputLine(line);
@@ -52,11 +54,12 @@ export async function fetchAllShortcutsByFolder(): Promise<
     ],
   ]);
 
-  // fetch all folders with ID
-  const listFolders = runCommand({
-    shell: true,
-    lines: true,
-  })`shortcuts list --folders --show-identifiers`;
+  // fetch all folders with ID, add them to the list of folders
+  const listFolders = spawn("shortcuts", [
+    "list",
+    "--folders",
+    SHOW_IDENTIFIERS,
+  ]);
 
   for await (const line of listFolders) {
     const folderInfo = parseOutputLine(line);
@@ -74,9 +77,12 @@ export async function fetchAllShortcutsByFolder(): Promise<
   for (const [folderId, folder] of folders) {
     if (folderId !== NONE_FOLDER_ID) {
       // for regular folders, use folder-name filter
-      const listShortcuts = runCommand({
-        lines: true,
-      })`shortcuts list --folder-name ${folderId} --show-identifiers`;
+      const listShortcuts = spawn("shortcuts", [
+        "list",
+        "--folder-name",
+        folderId,
+        SHOW_IDENTIFIERS,
+      ]);
 
       for await (const line of listShortcuts) {
         const shortcut = parseOutputLine(line);
@@ -100,20 +106,20 @@ export async function fetchAllShortcutsByFolder(): Promise<
   // now fill the "none" folder with shortcuts not in any folder
   const noneFolder = folders.get(NONE_FOLDER_ID);
   if (noneFolder) {
-    const listShortcuts = runCommand({
-      lines: true,
-    })`shortcuts list --show-identifiers`;
+    const shortcuts = await fetchAllShortcuts();
 
-    for await (const line of listShortcuts) {
-      const shortcut = parseOutputLine(line);
-      if (shortcut) {
-        // only add shortcuts that are not already in other folders
-        if (!shortcutsInFolders.has(shortcut.id)) {
-          noneFolder.shortcuts.push(shortcut);
-        }
+    for (const shortcut of shortcuts.values()) {
+      // only add shortcuts that are not already in other folders
+      if (!shortcutsInFolders.has(shortcut.id)) {
+        noneFolder.shortcuts.push(shortcut);
       }
     }
   }
 
   return folders;
+}
+
+export async function hasShortcut(shortcutID: string) {
+  const shortcuts = await fetchAllShortcuts();
+  return shortcuts.has(shortcutID);
 }
