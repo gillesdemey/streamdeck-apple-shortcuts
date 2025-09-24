@@ -1,13 +1,13 @@
-type LauncherSettings = {
+export type LauncherSettings = {
   shortcutID: string;
 };
 
-interface Shortcut {
+export interface Shortcut {
   id: string;
   name: string;
 }
 
-interface Folder {
+export interface Folder {
   id: string;
   name: string;
   shortcuts: Shortcut[];
