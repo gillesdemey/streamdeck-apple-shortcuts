@@ -1,14 +1,4 @@
-interface Entity {
-  id: string;
-  name: string;
-}
-
-// for now a shortcut is indistinguishable from any other entity
-export type Shortcut = Entity;
-
-export interface Folder extends Entity {
-  shortcuts: Shortcut[];
-}
+import { Entity } from "../types";
 
 // example: Toggle Office Lights (24BC2356-43D8-4679-B9C3-948AC2C40E79)
 const LINE_REGEX =

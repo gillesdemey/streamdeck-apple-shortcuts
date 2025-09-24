@@ -14,7 +14,7 @@ import {
 } from "../shortcuts";
 
 import { FETCH_SHORTCUTS_EVENT } from "../constants";
-import { LauncherSettings } from "../types/types";
+import { LauncherSettings } from "../types";
 
 @action({ UUID: "com.gilles-de-mey.simple-shortcuts.launch-shortcut" })
 export class Launcher extends SingletonAction<LauncherSettings> {

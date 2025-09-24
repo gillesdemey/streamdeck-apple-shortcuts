@@ -1,7 +1,8 @@
 import spawn from "nano-spawn";
 
-import { parseOutputLine, type Shortcut, type Folder } from "./utils/parser";
+import { parseOutputLine } from "./utils/parser";
 import { NONE_FOLDER_ID, SHOW_IDENTIFIERS } from "./constants";
+import { type Shortcut, type Folder } from "./types";
 
 /**
  * Run a shortcut by its ID
