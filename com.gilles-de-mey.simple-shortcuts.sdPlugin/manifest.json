@@ -1,41 +1,43 @@
 {
-  "Name": "simple-shortcuts",
-  "Version": "0.1.0.0",
-  "Author": "Gilles De Mey",
-  "Actions": [
-    {
-      "Name": "Launch Shortcut",
-      "UUID": "com.gilles-de-mey.simple-shortcuts.launch-shortcut",
-      "Icon": "imgs/actions/launch/icon",
-      "Tooltip": "Launch a MacOS Shortcut",
-      "PropertyInspectorPath": "ui/shortcut-selector.html",
-      "Controllers": ["Keypad"],
-      "States": [
-        {
-          "Image": "imgs/actions/launch/key",
-          "TitleAlignment": "bottom"
-        }
-      ]
-    }
-  ],
-  "Category": "simple-shortcuts",
-  "CategoryIcon": "imgs/plugin/category-icon",
-  "CodePath": "bin/plugin.js",
-  "Description": "Run MacOS shortcuts",
-  "Icon": "imgs/plugin/marketplace",
-  "SDKVersion": 2,
-  "Software": {
-    "MinimumVersion": "6.5"
-  },
-  "OS": [
-    {
-      "Platform": "mac",
-      "MinimumVersion": "12"
-    }
-  ],
-  "Nodejs": {
-    "Version": "20",
-    "Debug": "enabled"
-  },
-  "UUID": "com.gilles-de-mey.simple-shortcuts"
+	"Name": "simple-shortcuts",
+	"Version": "1.0.0.0",
+	"Author": "Gilles De Mey",
+	"Actions": [
+		{
+			"Name": "Launch Shortcut",
+			"UUID": "com.gilles-de-mey.simple-shortcuts.launch-shortcut",
+			"Icon": "imgs/actions/launch/icon",
+			"Tooltip": "Launch a MacOS Shortcut",
+			"PropertyInspectorPath": "ui/shortcut-selector.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/launch/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		}
+	],
+	"Category": "simple-shortcuts",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "Run MacOS shortcuts",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.5"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "com.gilles-de-mey.simple-shortcuts"
 }
